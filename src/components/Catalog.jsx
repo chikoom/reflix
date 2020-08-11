@@ -15,21 +15,31 @@ class Catalog extends Component {
     })
   }
   render() {
+    const users = this.props.users
+    const userId = this.props.match
+      ? parseInt(this.props.match.params.id)
+      : null
+    const currentUser = users.find(user => user.id === userId)
+    const currentUserMovies = currentUser ? currentUser.rentedMovies : []
+
     const movies = this.props.movies
     const searchTerm = this.state.searchTerm.toLocaleLowerCase()
     const freeMovies = movies.filter(
       movie =>
-        movie.isRented === false &&
-        movie.title.toLocaleLowerCase().includes(searchTerm)
+        // movie.isRented === false &&
+        movie.title.toLocaleLowerCase().includes(searchTerm) &&
+        !currentUserMovies.includes(movie.id)
     )
     const rentedMovies = movies.filter(
       movie =>
-        movie.isRented === true &&
-        movie.title.toLocaleLowerCase().includes(searchTerm)
+        // movie.isRented === true &&
+        movie.title.toLocaleLowerCase().includes(searchTerm) &&
+        currentUserMovies.includes(movie.id)
     )
+    const budget = currentUser.budget
     return (
       <div className='catalog-outer'>
-        <div className='budget-container'>Budget: {this.props.budget}</div>
+        <div className='budget-container'>Budget: {budget}</div>
         <Searchbar handleSearchTerm={this.handleSearchTerm} />
         {rentedMovies.length > 0 && (
           <div className='catalog-container'>
@@ -40,6 +50,8 @@ class Catalog extends Component {
                   key={movie.id}
                   details={movie}
                   rentReturnMovie={this.props.rentReturnMovie}
+                  currentUserId={userId}
+                  isRented={true}
                 />
               ))}
             </div>
@@ -53,6 +65,8 @@ class Catalog extends Component {
                 key={movie.id}
                 details={movie}
                 rentReturnMovie={this.props.rentReturnMovie}
+                currentUserId={userId}
+                isRented={false}
               />
             ))}
           </div>

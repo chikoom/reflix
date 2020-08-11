@@ -8,7 +8,7 @@ const MovieDetails = (match, movies) => {
       <h1>
         {movieDetails.title} ({movieDetails.year})
       </h1>
-      <img src={movieDetails.img} />
+      <img src={movieDetails.img} alt={movieDetails.title} />
       <p>{movieDetails.descrShort}</p>
     </div>
   )
