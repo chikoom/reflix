@@ -10,6 +10,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
+      budget: 10,
       movies: [
         {
           id: 0,
@@ -64,12 +65,28 @@ class App extends Component {
     } // endof State
   }
   rentReturnMovie = (movieId, isRented) => {
-    const movies = [...this.state.movies]
-    const movieToUpdate = movies.find(movie => movie.id === movieId)
-    movieToUpdate.isRented = isRented
-    this.setState({
-      movies,
-    })
+    if (this.updateBudget(isRented)) {
+      const movies = [...this.state.movies]
+      const movieToUpdate = movies.find(movie => movie.id === movieId)
+      movieToUpdate.isRented = isRented
+      this.setState({
+        movies,
+      })
+    } else {
+      alert('You dont have the budget!')
+      return false
+    }
+  }
+  updateBudget(isRented) {
+    let budgetChange = isRented ? -3 : 3
+    let currentBudget = this.state.budget
+    if (currentBudget + budgetChange > 0) {
+      this.setState({
+        budget: currentBudget + budgetChange,
+      })
+      return true
+    }
+    return false
   }
   render() {
     return (
@@ -84,6 +101,7 @@ class App extends Component {
               <Catalog
                 rentReturnMovie={this.rentReturnMovie}
                 movies={this.state.movies}
+                budget={this.state.budget}
               />
             )}
           />

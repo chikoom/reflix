@@ -29,6 +29,7 @@ class Catalog extends Component {
     )
     return (
       <div className='catalog-outer'>
+        <div className='budget-container'>Budget: {this.props.budget}</div>
         <Searchbar handleSearchTerm={this.handleSearchTerm} />
         {rentedMovies.length > 0 && (
           <div className='catalog-container'>
