@@ -26,49 +26,54 @@ class Catalog extends Component {
     const searchTerm = this.state.searchTerm.toLocaleLowerCase()
     const freeMovies = movies.filter(
       movie =>
-        // movie.isRented === false &&
         movie.title.toLocaleLowerCase().includes(searchTerm) &&
         !currentUserMovies.includes(movie.id)
     )
     const rentedMovies = movies.filter(
       movie =>
-        // movie.isRented === true &&
         movie.title.toLocaleLowerCase().includes(searchTerm) &&
         currentUserMovies.includes(movie.id)
     )
     const budget = currentUser.budget
     return (
       <div className='catalog-outer'>
-        <div className='budget-container'>Budget: {budget}</div>
-        <Searchbar handleSearchTerm={this.handleSearchTerm} />
-        {rentedMovies.length > 0 && (
+        <div className='catalog-control'>
+          <Searchbar handleSearchTerm={this.handleSearchTerm} />
+          {userId !== 0 && (
+            <div className='budget-container'>Your budget: ${budget}</div>
+          )}
+        </div>
+        <div className='catalog-movies'>
+          {rentedMovies.length > 0 && (
+            <div className='catalog-container'>
+              <h2>Rented:</h2>
+              <div className='catalog-rented  catalog-list'>
+                {rentedMovies.map(movie => (
+                  <Movie
+                    key={movie.id}
+                    details={movie}
+                    rentReturnMovie={this.props.rentReturnMovie}
+                    currentUserId={userId}
+                    isRented={true}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           <div className='catalog-container'>
-            <h2>Rented:</h2>
-            <div className='catalog-rented'>
-              {rentedMovies.map(movie => (
+            <h2>Catalog:</h2>
+            <div className='catalog-movies catalog-list'>
+              {freeMovies.map(movie => (
                 <Movie
                   key={movie.id}
                   details={movie}
                   rentReturnMovie={this.props.rentReturnMovie}
                   currentUserId={userId}
-                  isRented={true}
+                  isRented={false}
+                  userId={userId}
                 />
               ))}
             </div>
-          </div>
-        )}
-        <div className='catalog-container'>
-          <h2>Catalog:</h2>
-          <div className='catalog-movies'>
-            {freeMovies.map(movie => (
-              <Movie
-                key={movie.id}
-                details={movie}
-                rentReturnMovie={this.props.rentReturnMovie}
-                currentUserId={userId}
-                isRented={false}
-              />
-            ))}
           </div>
         </div>
       </div>

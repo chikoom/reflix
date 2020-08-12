@@ -26,12 +26,11 @@ class Searchbar extends Component {
         <input
           type='text'
           name='search-input'
+          className='search-input'
+          placeholder='Search a movie...'
           onChange={this.handleInput}
           value={this.state.searchQuery}
         />
-        <button>
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
       </div>
     )
   }

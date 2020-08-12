@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons'
-import { BrowserRouter as Link } from 'react-router-dom'
+import { BrowserRouter as Route, Link } from 'react-router-dom'
 
 class Movie extends Component {
   handleRentReturn = e => {
     e.stopPropagation()
     e.preventDefault()
-    const { id, isRented } = this.props.details
+    const { id } = this.props.details
     this.props.rentReturnMovie(
       this.props.currentUserId,
       id,
       !this.props.isRented
     )
-  }
-  handleMovieClick = () => {
-    console.log('movie')
   }
   render() {
     const { id, title, img, isRented } = this.props.details
@@ -29,9 +26,11 @@ class Movie extends Component {
           onClick={this.handleMovieClick}
         >
           <div className='movie-container-title'>{title}</div>
-          <button onClick={this.handleRentReturn}>
-            <FontAwesomeIcon icon={buttonIcon} />
-          </button>
+          {this.props.userId !== 0 && (
+            <button className='movie-button' onClick={this.handleRentReturn}>
+              <FontAwesomeIcon icon={buttonIcon} />
+            </button>
+          )}
         </div>
       </Link>
     )

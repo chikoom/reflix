@@ -9,12 +9,17 @@ class Landing extends Component {
   render() {
     const { users } = this.props
     return (
-      <div className='users-selection'>
-        {users.map(user => (
-          <Link key={user.id} to={`/catalog/u/${user.id}`}>
-            <div className='user-box'>{user.name}</div>
-          </Link>
-        ))}
+      <div className='landing-container'>
+        <h2>Who is watching?</h2>
+        <div className='users-selection'>
+          {users.map(user => (
+            <Link key={user.id} to={`/catalog/u/${user.id}`}>
+              <div className={`user-box ${user.color}`}>
+                {user.name.toUpperCase()}
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     )
   }
