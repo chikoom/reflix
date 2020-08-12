@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 .App {
   text-align: center;
+  font-family: 'Kanit', sans-serif;
 }
 
 .App-logo {
@@ -79,6 +81,24 @@ nav a {
   color: #fff;
   text-decoration: none;
   margin: 10px;
+  cursor: pointer;
+  position: relative;
+}
+.addUser-box {
+  display: inline-block;
+}
+.addUser-box .user-box {
+  border: 2px solid #999;
+}
+.button-delete-user {
+  position: absolute;
+  bottom: 5px;
+  right: 0;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: #fff;
 }
 .gray {
   background-color: #444;

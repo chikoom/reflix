@@ -25,6 +25,58 @@ class App extends Component {
       movies: moviesData,
     } // endof State
   }
+  deleteUser = userId => {
+    userId = parseInt(userId)
+    console.log('userId', userId)
+    const currentUsers = [...this.state.users]
+    console.log('currentUsers', currentUsers)
+    const filteredUsers = currentUsers.filter(
+      user => parseInt(user.id) !== parseInt(userId)
+    )
+    console.log('filteredUsers', filteredUsers)
+    this.setState(
+      {
+        users: filteredUsers,
+      },
+      () => {
+        this.removeUserFromStorage(userId)
+      }
+    )
+  }
+  removeUserFromStorage = userId => {
+    localStorage.setItem(
+      'reflixStorage',
+      JSON.stringify({
+        loggedUser: this.state.loggedUser,
+        users: this.state.users.filter(user => user.id !== 0),
+      })
+    )
+  }
+  saveNewUser = (username, color) => {
+    let maxId = 0
+    this.state.users.forEach(user => {
+      if (user.id > maxId) maxId = user.id + 1
+    })
+    ++maxId
+
+    const newUser = {
+      id: maxId,
+      name: username,
+      color: color,
+      rentedMovies: [],
+      budget: 10,
+    }
+    const currentUsers = [...this.state.users]
+    currentUsers.push(newUser)
+    this.setState(
+      {
+        users: currentUsers,
+      },
+      () => {
+        this.insertUserToStorage(newUser.id)
+      }
+    )
+  }
   getUsersFromStorage = () => {
     if (!localStorage.getItem('reflixStorage')) {
       localStorage.setItem(
@@ -116,7 +168,12 @@ class App extends Component {
             exact
             path='/'
             render={() => (
-              <Landing logUserIn={this.logUserIn} users={this.state.users} />
+              <Landing
+                deleteUser={this.deleteUser}
+                saveNewUser={this.saveNewUser}
+                logUserIn={this.logUserIn}
+                users={this.state.users}
+              />
             )}
           />
           <Route
