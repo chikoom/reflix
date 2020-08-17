@@ -5,6 +5,7 @@ import Catalog from './components/Catalog'
 import MovieDetails from './components/MovieDetails'
 import Nav from './components/Nav'
 import moviesData from './data/movies'
+import axios from 'axios'
 import './App.css'
 
 const App = () => {
@@ -20,6 +21,34 @@ const App = () => {
   const [loggedUser, setLoggedUser] = useState('default')
   const [budget, setBudget] = useState(10)
   const [movies, setMovies] = useState(moviesData)
+
+  useEffect(() => {
+    const storageUsers = getUsersFromStorage()
+    setUsers([...users, ...storageUsers])
+
+    const getMoivesFromAPI = async () => {
+      const results = await axios.get(
+        'http://api.themoviedb.org/3/discover/movie?api_key=36d6fb6f9b72120b5262096f86219df7&sort_by=popularity.desc'
+      )
+      //console.log(results)
+      const refactoredResults = results.data.results.map(result => ({
+        id: result.id,
+        isRented: false,
+        title: result.title,
+        img: `https://image.tmdb.org/t/p/w370_and_h556_bestv2${result.poster_path}`,
+        year: result.release_date.substring(
+          0,
+          result.release_date.indexOf('-')
+        ),
+        descrShort: result.overview,
+        trailer: '',
+      }))
+      console.log()
+      setMovies([...movies, ...refactoredResults])
+    }
+
+    getMoivesFromAPI()
+  }, [])
 
   const getUsersFromStorage = () => {
     if (!localStorage.getItem('reflixStorage')) {
@@ -41,10 +70,7 @@ const App = () => {
     setUsers(filteredUsers)
     removeUserFromStorage(userId)
   }
-  useEffect(() => {
-    const storageUsers = getUsersFromStorage()
-    setUsers([...users, ...storageUsers])
-  }, [])
+
   const removeUserFromStorage = userId => {
     localStorage.setItem(
       'reflixStorage',

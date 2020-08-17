@@ -15,6 +15,7 @@ const Catalog = props => {
   const currentUserMovies = currentUser ? currentUser.rentedMovies : []
 
   const movies = props.movies
+  console.log('movies', movies)
   const freeMovies = movies.filter(
     movie =>
       movie.title.toLocaleLowerCase().includes(searchTerm) &&
