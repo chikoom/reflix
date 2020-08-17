@@ -205,7 +205,9 @@ class App extends Component {
           <Route
             exact
             path='/movies/:id'
-            render={({ match }) => MovieDetails(match, this.state.movies)}
+            render={({ match }) => (
+              <MovieDetails match={match} movies={this.state.movies} />
+            )}
           />
         </div>
       </Router>

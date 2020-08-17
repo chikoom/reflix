@@ -1,8 +1,8 @@
 import React from 'react'
 
-const MovieDetails = (match, movies) => {
-  const movieId = parseInt(match.params.id)
-  const movieDetails = movies.find(movie => movie.id === movieId)
+const MovieDetails = props => {
+  const movieId = parseInt(props.match.params.id)
+  const movieDetails = props.movies.find(movie => movie.id === movieId)
   return (
     <div className='single-movie-container'>
       <h1>
@@ -16,9 +16,9 @@ const MovieDetails = (match, movies) => {
         width='560'
         height='315'
         src={`https://www.youtube.com/embed/${movieDetails.trailer}`}
-        frameborder='0'
+        frameBorder='0'
         allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-        allowfullscreen
+        allowFullScreen
       ></iframe>
     </div>
   )

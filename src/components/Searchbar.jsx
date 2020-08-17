@@ -1,39 +1,26 @@
-import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react'
 
-class Searchbar extends Component {
-  constructor() {
-    super()
-    this.state = {
-      searchQuery: '',
-    }
-  }
-  handleInput = e => {
+const Searchbar = props => {
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleInput = e => {
     const inputValue = e.target.value
-    this.setState(
-      {
-        searchQuery: inputValue,
-      },
-      () => {
-        this.props.handleSearchTerm(this.state.searchQuery)
-      }
-    )
+    setSearchQuery(inputValue)
+    props.handleSearchTerm(searchQuery)
   }
-  render() {
-    return (
-      <div className='search-container'>
-        <input
-          type='text'
-          name='search-input'
-          className='search-input'
-          placeholder='Search a movie...'
-          onChange={this.handleInput}
-          value={this.state.searchQuery}
-        />
-      </div>
-    )
-  }
+
+  return (
+    <div className='search-container'>
+      <input
+        type='text'
+        name='search-input'
+        className='search-input'
+        placeholder='Search a movie...'
+        onChange={handleInput}
+        value={searchQuery}
+      />
+    </div>
+  )
 }
 
 export default Searchbar
